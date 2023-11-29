@@ -68,6 +68,7 @@ const App = () => {
       });
     }
     
+    //need to make this loop every 5 seconds or so
   }, [isTripStarted]);
 
   
