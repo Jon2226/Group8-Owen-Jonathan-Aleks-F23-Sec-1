@@ -1,0 +1,92 @@
+.App {
+  background-color: #272D3A;
+  color: #F3F3F5;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.App-title {
+  min-height: 10vh;
+  display: grid;
+  grid-template-columns: 2fr 6fr 2fr;
+  margin: 10;
+  align-items: center ;
+  font-size: calc(20px + 2vmin);
+  color: #9199A0;
+  justify-items: center;
+}
+
+h1 {
+   margin: 0;
+}
+
+h2 {
+  font-size: calc(10px + 2vmin);
+  color:rgb(119, 118, 125);
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.login-button {
+  padding: 10px;
+  margin: 0;
+  background-color: #9AA7AE;
+  border: none;
+  border-radius: 20%;
+  box-shadow: 0 5px rgba(0,0,0,0.50);
+}
+
+.login-button:hover {
+  background-color: #666e71;
+}
+
+.login-button:active {
+  box-shadow: 0 3px rgba(0,0,0,0.50);
+  transform: translateY(4px);
+}
+
+.start-button {
+  padding: 10px;
+  margin: 5px;
+  background-color: #21BA00;
+  border: none;
+  border-radius: 40%;
+  box-shadow: 0 5px rgba(0,0,0,0.50);
+}
+.start-button:hover {
+  background-color: #198E00;
+}
+
+.start-button:active {
+  box-shadow: 0 3px rgba(0,0,0,0.50);
+  transform: translateY(4px);
+}
+
+.end-button {
+  padding: 10px;
+  margin: 5px;
+  background-color: #C60000;
+  border: none;
+  border-radius: 40%;
+  box-shadow: 0 5px rgba(0,0,0,0.50);
+}
+
+.end-button:hover {
+  background-color: #8E0000;
+}
+
+.end-button:active {
+  box-shadow: 0 3px rgba(0,0,0,0.50);
+  transform: translateY(4px);
+}
