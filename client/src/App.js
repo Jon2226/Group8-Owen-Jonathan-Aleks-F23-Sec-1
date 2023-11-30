@@ -11,14 +11,13 @@ const App = () => {
   });
 
   const startTrip = async () => {
-    endTrip();
     try {
       const response = await axios.post('/start-trip');
-      if (response.data.success) {
-        setIsTripStarted(true);
-        console.log(response.data.message);
+      if (response.data.success && !isTripStarted) {
+        setIsTripStarted(response.data.success);
+        console.log('Sucessfully started trip');
       } else {
-        console.log(response.data.message);
+        console.log('Trip already exists');
       }
     } catch (error) {
       console.error('Error starting trip:', error);
@@ -28,46 +27,58 @@ const App = () => {
   const endTrip = async () => {
     try {
       const response = await axios.post('/end-trip');
-      if (response.data.success) {
-        setIsTripStarted(false);
-        console.log(response.data.message);
+      if (response.data.success && isTripStarted) {
+        setIsTripStarted(!response.data.success);
+        console.log('Sucessfully ended trip');
         setLocationData({
           latitude: null,
           longitude: null,
           speed: null,
         });
       } else {
-        console.log(response.data.message);
+        console.log('No trip to end');
       }
     } catch (error) {
       console.error('Error ending trip:', error);
     }
   };
 
-  useEffect(() => {
-    if (isTripStarted){
-      const interval = setInterval(() => {
-        console.log("getting position");
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            console.log(position.coords.latitude)
-            console.log(position.coords.longitude)
-            setLocationData({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              speed: position.coords.speed ? position.coords.speed : 0,
-            });
-          },
-          (error) => {
-            console.error('Error getting location data:', error);
-          },
-          { enableHighAccuracy: true}
-        );
+  const setGeolocation = () => {
+    var watchID = navigator.geolocation.watchPosition(
+      (position) => {
+        console.log(position.coords.latitude)
+        console.log(position.coords.longitude)
+        setLocationData({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          speed: position.coords.speed ? position.coords.speed : 0,
+        });
+      },
+      (error) => {
+        console.error('Error getting location data:', error);
+      },
+      { enableHighAccuracy: true, maximumAge:0
+      }
+    );
 
-      }, 1000);
-      return () => {
-        clearInterval(interval);
-      };
+    setTimeout( function () {
+      navigator.geolocation.clearWatch(watchID) 
+  }, 
+  5000 //stop checking after 5 seconds
+);
+  }
+
+  useEffect(() => {
+    var intervalID
+    if (isTripStarted){
+
+     intervalID = setInterval( function () {
+      setGeolocation();
+      }, 6000 );
+    }
+
+    return () => {
+      clearInterval(intervalID)
     }
 
   }, [isTripStarted]);

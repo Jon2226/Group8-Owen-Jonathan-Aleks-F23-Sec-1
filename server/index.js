@@ -5,29 +5,14 @@ const port = 3001;
 
 app.use(bodyParser.json());
 
-let isTripStarted = false;
-let locationData = {
-  latitude: null,
-  longitude: null,
-  speed: null,
-};
-
 // Start Trip
 app.post('/start-trip', (req, res) => {
-  if (!isTripStarted) {
-    res.json({ success: true, message: 'Trip started successfully.' });
-  } else {
-    res.json({ success: false, message: 'Trip is already started.' });
-  }
+  res.json({ success:true });
 });
 
 // End Trip
 app.post('/end-trip', (req, res) => {
-  if (isTripStarted) {
-    res.json({ success: true, message: 'Trip ended successfully.' });
-  } else {
-    res.json({ success: false, message: 'No active trip to end.' });
-  }
+  res.json({ success:true });
 });
 
 app.listen(port, () => {
