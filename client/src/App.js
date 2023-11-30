@@ -74,7 +74,7 @@ const App = () => {
 
      intervalID = setInterval( function () {
       setGeolocation();
-      }, 6000 );
+      }, 10000 );
     }
 
     return () => {
