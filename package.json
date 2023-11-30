@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "build": "cd client && npm install && npm run build"
+    "server": "node server/index.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "engines": {
-    "node": "20.9.0"
+    "node": "18.9.0"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +19,8 @@
     "epress": "^0.0.1-security",
     "express": "^4.18.2",
     "node-gpsd": "^0.3.4"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

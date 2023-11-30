@@ -1,3 +1,5 @@
+// App.js
+
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
@@ -44,6 +46,8 @@ const App = () => {
   };
 
   const setGeolocation = () => {
+    if (navigator.geolocation)
+    {
     var watchID = navigator.geolocation.watchPosition(
       (position) => {
         console.log(position.coords.latitude)
@@ -66,6 +70,11 @@ const App = () => {
   }, 
   5000 //stop checking after 5 seconds
 );
+    }
+    else
+    {
+      alert("Location not allowed...");
+    }
   }
 
   useEffect(() => {
