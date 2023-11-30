@@ -15,7 +15,6 @@ let locationData = {
 // Start Trip
 app.post('/start-trip', (req, res) => {
   if (!isTripStarted) {
-    isTripStarted = true;
     res.json({ success: true, message: 'Trip started successfully.' });
   } else {
     res.json({ success: false, message: 'Trip is already started.' });
@@ -25,7 +24,6 @@ app.post('/start-trip', (req, res) => {
 // End Trip
 app.post('/end-trip', (req, res) => {
   if (isTripStarted) {
-    isTripStarted = false;
     res.json({ success: true, message: 'Trip ended successfully.' });
   } else {
     res.json({ success: false, message: 'No active trip to end.' });

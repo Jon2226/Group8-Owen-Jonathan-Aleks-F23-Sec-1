@@ -31,6 +31,11 @@ const App = () => {
       if (response.data.success) {
         setIsTripStarted(false);
         console.log(response.data.message);
+        setLocationData({
+          latitude: null,
+          longitude: null,
+          speed: null,
+        });
       } else {
         console.log(response.data.message);
       }
@@ -40,37 +45,32 @@ const App = () => {
   };
 
   useEffect(() => {
-    // Fetch and update location data when trip is active
     if (isTripStarted){
-    const watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        setLocationData({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          speed: position.coords.speed ? position.coords.speed : 0,
-        });
-      },
-      (error) => {
-        console.error('Error getting location data:', error);
-      },
-      { enableHighAccuracy: true, maximumAge: 0 }
-      
-    );
-    return () => {
-      navigator.geolocation.clearWatch(watchId);
-    };
-    }
-    else{
-      setLocationData({
-        latitude: null,
-        longitude: null,
-        speed: null,
-      });
-    }
-    
-    //need to make this loop every 5 seconds or so
-  }, [isTripStarted]);
+      const interval = setInterval(() => {
+        console.log("getting position");
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            console.log(position.coords.latitude)
+            console.log(position.coords.longitude)
+            setLocationData({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              speed: position.coords.speed ? position.coords.speed : 0,
+            });
+          },
+          (error) => {
+            console.error('Error getting location data:', error);
+          },
+          { enableHighAccuracy: true}
+        );
 
+      }, 1000);
+      return () => {
+        clearInterval(interval);
+      };
+    }
+
+  }, [isTripStarted]);
   
   return (
     <div className="App">
@@ -82,7 +82,7 @@ const App = () => {
       <h2>Trip Status: {isTripStarted ? 'Active' : 'Inactive'}</h2>
       <button className="start-button" onClick={startTrip}>Start Trip</button>
       <button className="end-button" onClick={endTrip}>End Trip</button>
-      { (
+      {isTripStarted && (
         <div>
           <h2>Tracking Data</h2>
           <p>Latitude: {locationData.latitude}</p>
