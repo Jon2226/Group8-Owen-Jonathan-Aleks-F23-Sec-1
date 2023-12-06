@@ -31,7 +31,7 @@ db.run(`
 
 // Start Trip
 app.post('/start-trip', (req, res) => {
-  const startLocation = req.body.startLocation;
+  let startLocation = req.body;
 
   // Insert data into the trips table
   db.run(
@@ -49,18 +49,17 @@ app.post('/start-trip', (req, res) => {
 
 // End Trip
 app.post('/end-trip', (req, res) => {
-  const endLocation = req.body.endLocation;
-  const tripId = req.body.tripId;
+  let endLocation = req.body;
 
   // Update the end_location, end_timestamp, and speed for the corresponding trip
   db.run(
     'UPDATE trips SET end_location_lat = ?, end_location_lon = ?, end_timestamp = CURRENT_TIMESTAMP, speed = ? WHERE id = ?',
-    [endLocation.latitude, endLocation.longitude, req.body.speed, tripId],
+    [endLocation.latitude, endLocation.longitude, endLocation.speed, this.lastID],
     function (err) {
       if (err) {
         return console.error(err.message);
       }
-      console.log(`Trip with ID ${tripId} has been ended.`);
+      console.log(`Trip with ID ${this.lastID} has been ended.`);
       res.json({ success: true });
     }
   );

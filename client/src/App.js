@@ -14,7 +14,7 @@ const App = () => {
 
   const startTrip = async () => {
     try {
-      const response = await axios.post('/start-trip');
+      const response = await axios.post('/start-trip', locationData);
       if (response.data.success && !isTripStarted) {
         setIsTripStarted(response.data.success);
         console.log('Sucessfully started trip');
@@ -28,7 +28,7 @@ const App = () => {
 
   const endTrip = async () => {
     try {
-      const response = await axios.post('/end-trip');
+      const response = await axios.post('/end-trip', locationData);
       if (response.data.success && isTripStarted) {
         setIsTripStarted(!response.data.success);
         console.log('Sucessfully ended trip');
